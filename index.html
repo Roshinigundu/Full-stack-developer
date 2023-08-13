@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Video</title>
+    <style>
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+        
+        .video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+    <h2>Upload a Video</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    
+    
+    <h2>Uploaded Video</h2>
+    <video id="video" controls>
+        <source src="g:\My Drive\1096671539-preview.mp4" type="video/mp4">
+        <track src="{{ url_for('static', filename='uploads/subtitles.mp4') }}" kind="subtitles" srclang="en" label="English">
+
+        Your browser does not support the video tag.
+      </video>
+      <div id="subtitle"></div>
+    
+      <script>
+        const video = document.getElementById('video');
+        const subtitleContainer = document.getElementById('subtitle');
+    
+        const subtitles = [
+          { start: 0, end: 1, text: 'TEN' },
+          { start: 1, end: 2, text: 'NINE' },
+          { start: 2, end: 3, text: 'EIGHT' },
+          { start: 3, end: 4, text: 'SEVEN' },
+          { start: 4, end: 5, text: 'SIX' },
+          { start: 5, end: 6, text: 'FIVE' },
+          { start: 6, end: 7, text: 'FOUR' },
+          { start: 7, end: 8, text: 'THREE' },
+          { start: 8, end: 9, text: 'TWO' },
+          { start: 9, end: 10, text: 'ONE' },
+          // Add more subtitle entries here
+        ];
+    
+        video.addEventListener('timeupdate', () => {
+          const currentTime = video.currentTime;
+          
+          // Find the appropriate subtitle for the current time
+          const currentSubtitle = subtitles.find(subtitle =>
+            currentTime >= subtitle.start && currentTime <= subtitle.end
+          );
+    
+          if (currentSubtitle) {
+            subtitleContainer.textContent = currentSubtitle.text;
+          } else {
+            subtitleContainer.textContent = '';
+          }
+        });
+      </script>   
+</body>
+</html>
